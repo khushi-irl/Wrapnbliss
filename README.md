@@ -38,10 +38,9 @@ const CONFIG = {
 
 ## 3. Add your real payment details
 
-Also in `index.html`, replace the placeholders in the payment section:
+The UPI ID (`9711178550@ptsbi`) is already filled in. One thing left:
 
-- `assets/upi-qr.png` — drop in an actual image of your UPI QR code (any name/size works, just keep the same filename, or update the `<img src>` in `index.html`).
-- The UPI ID text (`wrapnbliss@upi` placeholder) — swap for your real UPI ID.
+- Save your actual UPI QR code image as `assets/upi-qr.png` (the file doesn't exist yet — the page currently shows a text fallback in its place). Any image editor / your phone's screenshot works; just keep that exact filename, or update the `<img src>` in `index.html` if you name it differently.
 
 Registrants pay you directly via UPI, then type their transaction/reference ID (UTR) into the form as proof — this is what confirms their spot. Verify payments against your UPI app / bank statement and cross-check against the `Payment Reference (UTR)` column in the sheet.
 
