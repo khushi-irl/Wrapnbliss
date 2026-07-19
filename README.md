@@ -38,7 +38,7 @@ const CONFIG = {
 
 ## 3. Payment details
 
-The UPI ID (`9711178550@ptsbi`) is filled in, and `assets/upi-qr.png` is a QR code generated directly from it (`upi://pay?pa=9711178550@ptsbi&pn=Wrap%20N%20Bliss&cu=INR`) — scanning it opens any UPI app pre-filled with your ID. If you'd rather use your bank/Paytm app's own QR image instead, just replace `assets/upi-qr.png` with that file (same filename).
+The UPI ID (`9711178550@ptsbi`) and your Paytm UPI QR code (`assets/upi-qr.png`) are both already in place.
 
 Registrants pay you directly via UPI, then type their transaction/reference ID (UTR) into the form as proof — this is what confirms their spot. Verify payments against your UPI app / bank statement and cross-check against the `Payment Reference (UTR)` column in the sheet.
 
