@@ -84,6 +84,30 @@ groupSizeSelect.addEventListener("change", updateSummary);
 updateSummary();
 
 /* ---------------------------------------------------------------
+ * Pocket scroll reveal — charms spill out of the pocket once, the
+ * first time it scrolls into view. No-op if the user prefers
+ * reduced motion, or if IntersectionObserver isn't supported: the
+ * charms just stay visible in their resting position (CSS default).
+ * ------------------------------------------------------------- */
+const pocketVisual = document.querySelector(".pocket-visual");
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+if (pocketVisual && !reduceMotion && "IntersectionObserver" in window) {
+  document.documentElement.classList.add("js-anim-ready");
+  const pocketObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-revealed");
+          pocketObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+  pocketObserver.observe(pocketVisual);
+}
+
+/* ---------------------------------------------------------------
  * Form submit
  * ------------------------------------------------------------- */
 const form = document.getElementById("regForm");

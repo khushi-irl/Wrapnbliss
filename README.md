@@ -6,6 +6,7 @@ A registration page for Wrap n Bliss's Friendship Day workshop, **"Keep It In Yo
 - Automatic 10% off the total when 4+ people register together in one booking
 - Registrants submit name, email, phone, Instagram handle, age, how they found the event, and a UPI payment reference to confirm their spot
 - Every registration (and each friend in a group booking) is written as its own row into a Google Sheet
+- On submission, the registrant gets a confirmation email (marked **pending verification**, not confirmed), and you get a notification email at `khushij.office@gmail.com` with the booking details so you can verify the payment
 
 It's a static site — `index.html` + `assets/style.css` + `assets/script.js` — with no server of your own to run. The Google Sheet is fed by a small Google Apps Script Web App (`apps-script/Code.gs`).
 
@@ -24,6 +25,18 @@ It's a static site — `index.html` + `assets/style.css` + `assets/script.js` �
 The first registration that comes in will auto-create a `Registrations` tab with headers, and (if a screenshot is attached) a Drive folder called `Wrap n Bliss - Payment Screenshots`.
 
 > Redeploy note: every time you edit `Code.gs`, use **Deploy → Manage deployments → Edit → New version** so the live URL picks up your changes.
+
+### Updating an already-deployed script (e.g. to add the email feature)
+
+If you'd already deployed an earlier version of `Code.gs`, update it like this:
+
+1. Open the Apps Script project (Extensions → Apps Script from your Sheet).
+2. Select all the existing code and replace it with the latest [`apps-script/Code.gs`](apps-script/Code.gs).
+3. **Deploy → Manage deployments → click the pencil/edit icon → Version: New version → Deploy.**
+4. Google will ask you to **re-authorize** — this version now needs permission to send email as you (it didn't before). Click through the same "unverified app → Advanced → Go to [project] (unsafe)" flow as the first time; this is expected for your own script.
+5. The Web app URL stays the same, so nothing needs to change on the site side.
+
+Emails send via your own Gmail account (`MailApp`), which has a free daily quota of 100 emails — far more than a workshop like this needs.
 
 ## 2. Connect the site to your sheet
 
