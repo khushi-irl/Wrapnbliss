@@ -73,9 +73,8 @@ a { color: inherit; }
   gap: 10px;
 }
 .brand-logo {
-  height: 34px;
-  width: 34px;
-  border-radius: 50%;
+  height: 38px;
+  width: 38px;
   object-fit: contain;
 }
 .brand {
