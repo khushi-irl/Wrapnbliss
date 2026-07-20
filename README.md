@@ -55,7 +55,11 @@ The UPI ID (`9711178550@ptsbi`) and your Paytm UPI QR code (`assets/upi-qr.png`)
 
 Registrants pay you directly via UPI, then type their transaction/reference ID (UTR) into the form as proof — this is what confirms their spot. Verify payments against your UPI app / bank statement and cross-check against the `Payment Reference (UTR)` column in the sheet.
 
-## 4. Deploy the site
+## 4. Add your logo
+
+The header and footer look for a logo image at `assets/logo.png` (currently missing — they just hide gracefully without it). Upload your real logo file there, same way you added the UPI QR code: on GitHub, go into the `assets` folder and use **Add file → Upload files**, name it exactly `logo.png`.
+
+## 5. Deploy the site
 
 Since it's a static site, any static host works — e.g. GitHub Pages:
 

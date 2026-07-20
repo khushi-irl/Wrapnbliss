@@ -84,27 +84,39 @@ groupSizeSelect.addEventListener("change", updateSummary);
 updateSummary();
 
 /* ---------------------------------------------------------------
- * Pocket scroll reveal — charms spill out of the pocket once, the
- * first time it scrolls into view. No-op if the user prefers
- * reduced motion, or if IntersectionObserver isn't supported: the
- * charms just stay visible in their resting position (CSS default).
+ * Pocket scroll slide — charms continuously slide out of the pocket
+ * as the user scrolls it into view, tracking scroll position rather
+ * than firing once. --progress (0 -> 1) drives each charm's
+ * transform via CSS calc(). No-op if the user prefers reduced
+ * motion: charms just stay visible in their resting position.
  * ------------------------------------------------------------- */
 const pocketVisual = document.querySelector(".pocket-visual");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-if (pocketVisual && !reduceMotion && "IntersectionObserver" in window) {
+if (pocketVisual && !reduceMotion) {
   document.documentElement.classList.add("js-anim-ready");
-  const pocketObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-revealed");
-          pocketObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.3 }
-  );
-  pocketObserver.observe(pocketVisual);
+
+  let ticking = false;
+  function updatePocketProgress() {
+    ticking = false;
+    const rect = pocketVisual.getBoundingClientRect();
+    const vh = window.innerHeight;
+    // 0 when the pocket is just entering the bottom of the viewport,
+    // 1 once it's reached the upper-middle — charms are fully out by then.
+    const start = vh;
+    const end = vh * 0.38;
+    const raw = (start - rect.top) / (start - end);
+    const progress = Math.min(1, Math.max(0, raw));
+    pocketVisual.style.setProperty("--progress", progress.toFixed(3));
+  }
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(updatePocketProgress);
+    }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  updatePocketProgress();
 }
 
 /* ---------------------------------------------------------------
