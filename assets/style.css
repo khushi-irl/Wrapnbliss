@@ -139,7 +139,7 @@ a { color: inherit; }
   font-size: 0.9rem;
   font-weight: 500;
 }
-.meta-icon { margin-right: 4px; }
+.meta-icon { margin-right: 5px; vertical-align: -2px; }
 
 /* ---------- buttons ---------- */
 .btn {
@@ -178,17 +178,36 @@ a { color: inherit; }
   color: #5a6478;
 }
 
-/* ---------- pocket showcase ---------- */
-.pocket-section { padding-top: 40px; padding-bottom: 40px; }
+/* ---------- what's included ---------- */
+.included { padding-top: 28px; padding-bottom: 28px; }
+
+/* ---------- framed pocket (registration sidebar) ---------- */
+.frame-col { display: flex; justify-content: center; }
+.frame-shell {
+  background: var(--denim-900);
+  padding: 14px;
+  border-radius: 4px;
+  box-shadow: 0 14px 30px rgba(0,0,0,.22);
+  width: 100%;
+  max-width: 320px;
+}
+.frame-mat {
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--stitch);
+  padding: 24px 18px;
+  display: flex;
+  justify-content: center;
+}
 
 .pocket-visual {
   position: relative;
-  max-width: 460px;
-  margin: 0 auto 28px;
-  min-height: 400px;
+  width: 230px;
+  height: 270px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  transform: scale(0.86);
+  transform-origin: center bottom;
 }
 
 .pocket-shape {
@@ -198,7 +217,7 @@ a { color: inherit; }
   background-image: var(--denim-fabric);
   background-size: 130px 130px, 6px 6px, 6px 6px, cover, cover, cover;
   clip-path: path('M8,4 L232,4 L232,222 C232,250 208,274 178,274 L62,274 C34,274 8,250 8,222 Z');
-  filter: drop-shadow(0 10px 16px rgba(0,0,0,.35));
+  filter: drop-shadow(0 8px 14px rgba(0,0,0,.3));
 }
 @supports not (clip-path: path('M0 0')) {
   .pocket-shape { clip-path: none; border-radius: 4px 4px 46px 46px; }
@@ -222,7 +241,7 @@ a { color: inherit; }
   transform: translate(0, 0) scale(1) rotate(var(--rot, 0deg));
   filter: drop-shadow(0 3px 5px rgba(0,0,0,.35));
 }
-.pocket-charm-pearls { transform-origin: center; margin-left: -53px; }
+.pocket-charm-pearls { transform-origin: center; margin-left: -42px; }
 
 /* JS-enhanced scroll reveal: charms start tucked into the pocket, spill out on scroll */
 .js-anim-ready .pocket-charm {
@@ -251,11 +270,10 @@ a { color: inherit; }
 .pointer-tag {
   background: var(--paper);
   border-left: 3px dashed var(--stitch);
-  border-radius: 4px;
+  border-radius: 2px;
   padding: 8px 14px;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   color: var(--denim-900);
-  box-shadow: 0 1px 4px rgba(0,0,0,.06);
 }
 
 /* pricing */
@@ -299,7 +317,13 @@ a { color: inherit; }
 }
 
 /* ---------- registration ---------- */
-.form-col { max-width: 640px; margin: 0 auto; }
+.register-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.frame-col { position: sticky; top: 24px; }
 .form-col h2 { text-align: left; }
 .form-col .section-sub { text-align: left; margin-left: 0; }
 
@@ -409,7 +433,7 @@ input:focus, select:focus, textarea:focus {
   font-size: 0.88rem;
   color: #7a2c25;
 }
-.verify-icon { font-size: 1.1rem; line-height: 1; }
+.verify-icon { flex-shrink: 0; margin-top: 2px; }
 
 .upi-spotlight {
   background: var(--paper);
@@ -498,8 +522,9 @@ input:focus, select:focus, textarea:focus {
 
 /* ---------- responsive ---------- */
 @media (max-width: 860px) {
-  .pocket-visual { max-width: 360px; min-height: 320px; }
-  .pocket-shape { width: 190px; height: 224px; }
+  .register-layout { grid-template-columns: 1fr; }
+  .frame-col { position: static; }
+  .frame-shell { max-width: 260px; margin: 0 auto; }
 }
 @media (max-width: 520px) {
   .form-row.two-col { grid-template-columns: 1fr; }
