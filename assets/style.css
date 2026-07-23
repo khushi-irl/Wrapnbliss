@@ -10,8 +10,12 @@
   --red-pin: #c0463c;
   --ink: #24395c;
   --radius: 6px;
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body: 'Space Grotesk', system-ui, sans-serif;
+  --font-display: 'Baloo 2', system-ui, sans-serif;
+  --font-body: 'Nunito', system-ui, sans-serif;
+  --font-accent: 'Caveat', cursive;
+
+  --maroon: #A54860;
+  --marigold: #ED8444;
 
   --denim-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --denim-fabric:
@@ -21,6 +25,14 @@
     radial-gradient(140px 100px at 28% 8%, var(--denim-500) 0%, transparent 60%),
     radial-gradient(180px 150px at 72% 96%, var(--denim-800) 0%, transparent 65%),
     linear-gradient(var(--denim-600), var(--denim-600));
+  --denim-fabric-page:
+    var(--denim-noise),
+    repeating-linear-gradient(63deg, rgba(255,255,255,.05) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(-27deg, rgba(0,0,0,.08) 0 1px, transparent 1px 3px),
+    radial-gradient(140px 100px at 28% 8%, var(--denim-500) 0%, transparent 60%),
+    radial-gradient(180px 150px at 72% 96%, var(--denim-800) 0%, transparent 65%),
+    linear-gradient(rgba(19,30,50,.28), rgba(19,30,50,.28)),
+    linear-gradient(var(--denim-900), var(--denim-900));
 }
 
 * { box-sizing: border-box; }
@@ -31,8 +43,14 @@ body {
   margin: 0;
   font-family: var(--font-body);
   color: var(--ink);
-  background: var(--cream);
+  background-color: var(--denim-900);
+  background-image: var(--denim-fabric-page);
+  background-size: 200px 200px, 6px 6px, 6px 6px, cover, cover, cover, cover;
+  background-attachment: scroll;
   line-height: 1.5;
+}
+@media (min-width: 861px) {
+  body { background-attachment: fixed; }
 }
 
 .wrap {
@@ -96,14 +114,12 @@ a { color: inherit; }
   font-size: 0.9rem;
   transition: background 0.15s ease;
 }
-.ig-link:hover { background: rgba(250,245,234,0.12); }
+.ig-link:hover { background: rgba(237,132,68,0.18); border-color: rgba(237,132,68,0.5); }
 
 /* ---------- hero ---------- */
 .hero {
-  background:
-    linear-gradient(rgba(28,43,69,.55), rgba(28,43,69,.72)),
-    var(--denim-fabric);
-  background-size: 200px 200px, 6px 6px, 6px 6px, cover, cover, cover;
+  /* fabric comes from body underneath; this just darkens it enough for white display type */
+  background: linear-gradient(rgba(28,43,69,.55), rgba(28,43,69,.72));
   color: var(--cream);
   padding: 64px 0 48px;
   position: relative;
@@ -115,13 +131,45 @@ a { color: inherit; }
   max-width: 680px;
   margin: 0 auto;
 }
+.hero-charm {
+  position: absolute;
+  pointer-events: none;
+}
+.hero-charm svg { display: block; width: 100%; height: auto; }
+.hero-charm-polaroid {
+  width: 58px;
+  top: -10px;
+  left: 4%;
+  transform: rotate(-9deg);
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,.35));
+}
+.hero-charm-star {
+  width: 30px;
+  top: 14%;
+  right: 8%;
+  transform: rotate(12deg);
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,.3));
+  opacity: .9;
+}
+.hero-charm-pearls {
+  width: 220px;
+  max-width: 60%;
+  left: 50%;
+  bottom: -14px;
+  transform: translateX(-50%);
+  opacity: .8;
+}
+@media (max-width: 640px) {
+  .hero-charm-polaroid { width: 38px; top: -4px; }
+  .hero-charm-star { display: none; }
+}
 .eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.8rem;
+  font-family: var(--font-accent);
+  font-size: 1.5rem;
   color: var(--stitch);
-  font-weight: 600;
-  margin-bottom: 12px;
+  font-weight: 700;
+  transform: rotate(-2deg);
+  margin-bottom: 2px;
 }
 .hero h1 {
   font-size: clamp(2.2rem, 5vw, 3.2rem);
@@ -189,7 +237,15 @@ a { color: inherit; }
 }
 
 /* ---------- what's included ---------- */
-.included { padding-top: 28px; padding-bottom: 28px; }
+.included { padding-top: 28px; padding-bottom: 28px; position: relative; }
+
+/* ---------- registration form sheet (paper panel pinned on the denim page) ---------- */
+.form-sheet {
+  background: var(--paper);
+  border-radius: 10px;
+  padding: 32px clamp(20px, 4vw, 40px);
+  box-shadow: 0 18px 40px rgba(10,16,28,.45);
+}
 
 /* ---------- framed pocket (registration sidebar) ---------- */
 .frame-col { display: flex; justify-content: center; }
@@ -197,7 +253,7 @@ a { color: inherit; }
   background: var(--denim-900);
   padding: 14px;
   border-radius: 4px;
-  box-shadow: 0 14px 30px rgba(0,0,0,.22);
+  box-shadow: 0 0 0 1px rgba(224,169,74,.4), 0 18px 34px rgba(0,0,0,.4);
   width: 100%;
   max-width: 320px;
 }
@@ -272,27 +328,65 @@ a { color: inherit; }
   .pocket-charm { transition: none !important; }
 }
 
-/* pointer tags */
+/* pointer tags — patches pinned to the denim board */
 .pointer-tags {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 16px 14px;
   margin: 0;
   padding: 0;
 }
 .pointer-tag {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: var(--paper);
   border-left: 3px dashed var(--stitch);
   border-radius: 2px;
-  padding: 8px 14px;
+  padding: 9px 14px 9px 12px;
   font-size: 0.86rem;
   color: var(--denim-900);
+  box-shadow: 0 6px 14px rgba(10,16,28,.28);
+  transform: rotate(var(--tag-rot, 0deg));
+}
+.tag-icon { flex-shrink: 0; }
+.pointer-tag:nth-child(1) { --tag-rot: -1.5deg; }
+.pointer-tag:nth-child(2) { --tag-rot: 1.5deg; }
+.pointer-tag:nth-child(3) { --tag-rot: -1deg; }
+.pointer-tag:nth-child(4) { --tag-rot: 1.8deg; }
+.pointer-tag:nth-child(5) { --tag-rot: -1.8deg; }
+.pointer-tag:nth-child(1)::before,
+.pointer-tag:nth-child(4)::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 34px;
+  height: 14px;
+  border-radius: 1px;
+  opacity: .9;
+}
+.pointer-tag:nth-child(1)::before {
+  transform: translateX(-50%) rotate(-7deg);
+  background: repeating-linear-gradient(45deg, rgba(224,169,74,.65) 0 4px, rgba(224,169,74,.35) 4px 8px);
+}
+.pointer-tag:nth-child(4)::before {
+  transform: translateX(-50%) rotate(6deg);
+  background: repeating-linear-gradient(-45deg, rgba(255,250,240,.92) 0 4px, rgba(255,250,240,.6) 4px 8px);
+  box-shadow: 0 0 0 1px rgba(224,169,74,.4);
 }
 
 /* pricing */
-.pricing { background: var(--denim-900); color: var(--cream); }
+.pricing {
+  position: relative;
+  background-image: linear-gradient(rgba(19,30,50,.35), rgba(19,30,50,.35)), var(--denim-fabric);
+  background-size: cover, 150px 150px, 6px 6px, 6px 6px, cover, cover, cover;
+  color: var(--cream);
+  overflow: hidden;
+}
 .pricing h2 { color: var(--cream); }
 .price-card {
   max-width: 480px;
@@ -318,10 +412,20 @@ a { color: inherit; }
   border-top: 1px dashed rgba(250,245,234,0.25);
   font-size: 0.94rem;
 }
+.price-charm {
+  position: absolute;
+  pointer-events: none;
+  opacity: .55;
+}
+.price-charm svg { display: block; width: 100%; height: auto; }
+.price-charm-heart { width: 34px; top: 10%; left: 6%; transform: rotate(-14deg); }
+.price-charm-star { width: 30px; bottom: 8%; right: 7%; transform: rotate(16deg); }
+@media (max-width: 640px) { .price-charm { display: none; } }
+
 .perk-badge {
   display: inline-block;
-  background: var(--stitch);
-  color: var(--denim-900);
+  background: var(--maroon);
+  color: var(--cream);
   font-weight: 700;
   font-size: 0.75rem;
   text-transform: uppercase;
@@ -332,7 +436,29 @@ a { color: inherit; }
 }
 
 /* ---------- registration ---------- */
+.register { position: relative; }
+
+/* gutter charms — only shown once the viewport is comfortably wider than
+   the 1100px content column, so they sit in the margin and never risk
+   overlapping the form/frame at in-between widths */
+.gutter-charm {
+  position: absolute;
+  display: none;
+  pointer-events: none;
+  opacity: .7;
+  z-index: 0;
+}
+.gutter-charm svg { display: block; width: 100%; height: auto; }
+@media (min-width: 1300px) {
+  .gutter-charm { display: block; }
+  .gutter-charm-glasses { width: 70px; top: 6%; left: 3%; transform: rotate(-8deg); }
+  .gutter-charm-hibiscus { width: 48px; top: 46%; right: 3.5%; transform: rotate(10deg); }
+  .gutter-charm-cassette { width: 56px; top: 74%; left: 4%; transform: rotate(7deg); }
+}
+
 .register-layout {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 300px 1fr;
   gap: 40px;
@@ -382,7 +508,8 @@ input[type=text], input[type=email], input[type=tel], input[type=number], input[
 }
 input:focus, select:focus, textarea:focus {
   outline: none;
-  border-color: var(--denim-500);
+  border-color: var(--stitch);
+  box-shadow: 0 0 0 3px rgba(224,169,74,.35);
 }
 .hint { font-size: 0.82rem; color: #8a93a6; margin: 6px 0 0; }
 
@@ -460,10 +587,17 @@ input:focus, select:focus, textarea:focus {
   margin: 12px 0 18px;
 }
 .upi-scan-label {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-family: var(--font-accent);
+  font-size: 1.4rem;
+  font-weight: 700;
   color: var(--denim-900);
-  margin: 0 0 10px;
+  margin: 0 0 8px;
+}
+.step-label {
+  font-family: var(--font-accent);
+  font-weight: 700;
+  font-size: 1.15em;
+  color: var(--maroon);
 }
 .upi-qr {
   width: min(220px, 60vw);
