@@ -47,6 +47,10 @@ function renderExtraParticipants(size) {
           <input type="text" id="p${i}_instagram" name="p${i}_instagram" placeholder="@handle" />
         </div>
       </div>
+      <div class="form-row">
+        <label for="p${i}_email">Email address <span class="optional">(optional — they'll get their own confirmation)</span></label>
+        <input type="email" id="p${i}_email" name="p${i}_email" />
+      </div>
     `;
     extraContainer.appendChild(card);
   }
@@ -196,7 +200,7 @@ form.addEventListener("submit", async (e) => {
         age: document.getElementById(`p${i}_age`).value,
         phone: document.getElementById(`p${i}_phone`).value.trim(),
         instagram: document.getElementById(`p${i}_instagram`).value.trim(),
-        email: "",
+        email: document.getElementById(`p${i}_email`).value.trim(),
         howFound: "",
         isPrimary: false,
       });

@@ -66,39 +66,51 @@ function saveScreenshot_(base64DataUrl, bookingId) {
 }
 
 function sendEmails_(bookingId, participants, p) {
+  const primary = participants.filter(function (x) { return x.isPrimary; })[0];
+  const names = participants.map(function (x) { return x.name; }).filter(String).join(", ");
+
+  // One personalized email to every participant who gave an email address —
+  // not just the primary contact.
+  participants.forEach(function (participant) {
+    if (!participant.email) return;
+    try {
+      const body =
+        "Hi " + (participant.name || "there") + ",\n\n" +
+        "Your spot is RESERVED for:\n\n" +
+        "Workshop: " + WORKSHOP_LABEL + "\n" +
+        "When: " + WORKSHOP_WHEN + "\n" +
+        "Where: " + WORKSHOP_WHERE + "\n\n" +
+        "Booking ID: " + bookingId + "\n" +
+        "Group size: " + (p.groupSize || "") + "\n" +
+        "Names in this booking: " + names + "\n" +
+        "Total amount: Rs " + (p.totalAmount || "") + "\n" +
+        "Payment reference (UTR) submitted: " + (p.paymentRef || "") + "\n\n" +
+        "This is pending payment verification — we'll check the payment reference against our account " +
+        "and contact you again once it's confirmed.\n\n" +
+        "Questions in the meantime? DM us on Instagram @wrapnbliss.\n\n" +
+        "See you on 2nd August!\n" +
+        "— Wrap n Bliss";
+
+      MailApp.sendEmail({
+        to: participant.email,
+        subject: "Your spot is reserved — " + WORKSHOP_LABEL,
+        body: body,
+      });
+    } catch (err) {
+      // One bad email address shouldn't stop the others from sending, or
+      // block the registration itself — the row is already saved.
+    }
+  });
+
+  // One summary email to the owner per booking, so she knows who just registered.
   try {
-    const primary = participants.filter(function (x) { return x.isPrimary; })[0];
-    if (!primary || !primary.email) return;
-
-    const names = participants.map(function (x) { return x.name; }).filter(String).join(", ");
-
-    const participantBody =
-      "Booking ID: " + bookingId + "\n" +
-      "Group size: " + (p.groupSize || "") + "\n" +
-      "Names: " + names + "\n" +
-      "Total amount: Rs " + (p.totalAmount || "") + "\n" +
-      "Payment reference (UTR) you submitted: " + (p.paymentRef || "") + "\n\n" +
-      "Workshop: " + WORKSHOP_LABEL + "\n" +
-      "When: " + WORKSHOP_WHEN + "\n" +
-      "Where: " + WORKSHOP_WHERE + "\n\n" +
-      "Your spot is PENDING VERIFICATION — we're not confirmed yet. We'll check your payment reference " +
-      "against our account and contact you again once it's verified and your spot(s) are confirmed.\n\n" +
-      "Questions in the meantime? DM us on Instagram @wrapnbliss.\n\n" +
-      "— Wrap n Bliss";
-
-    MailApp.sendEmail({
-      to: primary.email,
-      subject: "We've received your registration — " + WORKSHOP_LABEL,
-      body: participantBody,
-    });
-
     const ownerBody =
       "New registration received.\n\n" +
       "Booking ID: " + bookingId + "\n" +
       "Group size: " + (p.groupSize || "") + "\n" +
       "Names: " + names + "\n" +
-      "Primary contact: " + primary.name + " <" + primary.email + ">, " + (primary.phone || "") + "\n" +
-      "How they found us: " + (primary.howFound || "") + "\n" +
+      "Primary contact: " + (primary ? primary.name + " <" + primary.email + ">, " + (primary.phone || "") : "") + "\n" +
+      "How they found us: " + (primary ? primary.howFound || "" : "") + "\n" +
       "Total amount: Rs " + (p.totalAmount || "") + " (discount applied: " + (p.discountApplied || "") + ")\n" +
       "Payment reference (UTR): " + (p.paymentRef || "") + "\n" +
       "Notes: " + (p.notes || "") + "\n\n" +
@@ -106,12 +118,11 @@ function sendEmails_(bookingId, participants, p) {
 
     MailApp.sendEmail({
       to: OWNER_EMAIL,
-      subject: "New registration: " + primary.name + " (" + (p.groupSize || "1") + " " + (p.groupSize == 1 ? "spot" : "spots") + ")",
+      subject: "New registration: " + (primary ? primary.name : names) + " (" + (p.groupSize || "1") + " " + (p.groupSize == 1 ? "spot" : "spots") + ")",
       body: ownerBody,
     });
   } catch (err) {
-    // Email failures should never block the registration itself — the row is
-    // already saved. Errors here just mean no email went out this time.
+    // Same as above — never let an email failure block the registration.
   }
 }
 

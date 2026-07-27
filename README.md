@@ -74,12 +74,19 @@ Each row is one participant (so a group of 4 booked together produces 4 rows sha
 | Participant # | Order within the booking |
 | Participant Name / Age / Instagram Handle | Per person |
 | Primary Contact | `Yes` for the person who filled the form, `No` for their friends |
-| Email / Phone | Only collected for the primary contact |
+| Email | Required for the primary contact; optional for friends — if a friend provides one, they get their own confirmation email too |
+| Phone | Required for the primary contact; optional for friends |
 | How They Found Us | Only collected for the primary contact |
 | Group Size / Price Per Person / Group Discount Applied / Total Amount Paid (booking) | Same across all rows in a booking |
 | Payment Reference (UTR) | What you check to confirm payment |
 | Payment Screenshot | Link to the uploaded image in Drive, if one was attached |
 | Notes | Optional free text from the primary contact |
+
+## Emails
+
+- **Every participant who provides an email** (the primary contact, required; friends, optional) gets their own "your spot is reserved, pending payment verification" email with the workshop date/time/location.
+- **You** get one summary email per booking at `khushij.office@gmail.com` listing everyone in that booking, so you know who just registered.
+- This needs the redeploy + re-authorization step above whenever `Code.gs` changes (it already has `MailApp` permission from the first time you set this up — no new permission needed for this update, just the redeploy).
 
 ## Local preview
 
