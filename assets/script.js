@@ -4,7 +4,7 @@
  * ------------------------------------------------------------- */
 const CONFIG = {
   // Paste the Web App URL you get after deploying apps-script/Code.gs
-  APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbzlkQuw70LyKKZSPrcRD0QRg0rF_dMi0CEmjhlF94Te6BnU9ml0ULA9ckCjqLz6bvm5/exec",
+  APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbwp-LGNecBeWgJtAJhwyeHnLt4svJ6LWMeOHSKTO1Gai5Bm0xjfsML4ejupR_cVyhzh/exec",
   PRICE_PER_PERSON: 2499,
   GROUP_DISCOUNT_THRESHOLD: 4,
   GROUP_DISCOUNT_RATE: 0.10, // 10%
