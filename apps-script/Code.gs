@@ -82,7 +82,7 @@ function sendEmails_(bookingId, participants, p) {
       "When: " + WORKSHOP_WHEN + "\n" +
       "Where: " + WORKSHOP_WHERE + "\n\n" +
       "Your spot is PENDING VERIFICATION — we're not confirmed yet. We'll check your payment reference " +
-      "against our account and email you again once it's verified and your spot(s) are confirmed.\n\n" +
+      "against our account and contact you again once it's verified and your spot(s) are confirmed.\n\n" +
       "Questions in the meantime? DM us on Instagram @wrapnbliss.\n\n" +
       "— Wrap n Bliss";
 
